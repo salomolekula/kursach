@@ -70,7 +70,7 @@ class Stack: public node {
     }
  
     void push(int data) { //Функция добавления элемента в стек
-        if (lenght() + 2 <= max_lenght) {
+        if (lenght() + 1 <= max_lenght) {
             node* temoral = new node;// выделние динамической памяти под новый элемент
             temoral->key = data;
             temoral->p = head;
@@ -113,7 +113,72 @@ class Stack: public node {
         }
         std::cout << "\n";
     }
+
+    void remove()
+    {
+        while (head != NULL) {
+            node* temporal = head->p;
+            delete head;
+            head = temporal;
+        }
+    }
+
 };
+
+void menu(Stack st)
+{
+    std::cout << "Input your move number: \n 1.Print\n 2.Push\n 3.Pop\n 4.Remove\n 5.Sum\n 6.Length\n 7.Copy to vector\n 8.Max length push\n 9.End program";
+    std::vector<int> vct;
+
+    int number;
+    std::cin >> number;
+    switch (number)
+    {
+    case 1:
+        st.print();
+        break;
+    case 2:
+        int input;
+        std::cout << "Input pushing number.\n";
+        std::cin >> input;
+        st.push(input);
+        menu(st);
+        break;
+    case 3:
+        st.pop();
+        menu(st);
+        break;
+    case 4:
+        st.remove();
+        menu(st);
+        break;
+    case 5:
+        st.sum();
+        menu(st);
+        break;
+    case 6:
+        st.lenght();
+        menu(st);
+        break;
+    case 7:
+        st.stackToVector(vct);
+        menu(st);
+        break;
+    case 8:
+        std::cout << "input max stack length:\n";
+        int length;
+        std::cin >> length;
+        st._max_lenght_(length);
+        menu(st);
+        break;
+    case 9:
+        break;
+    default:
+        std::cout << "incorrect input. Try again";
+        menu(st);
+        break;
+    }
+}
  
 int main() {
     Stack st;
@@ -128,5 +193,7 @@ int main() {
     st.pop();
     st.print();
     std::cout << "Found sum of stack elements: " << st.sum() << "\n";
+    
+    menu(st);
     return 0;
 }
